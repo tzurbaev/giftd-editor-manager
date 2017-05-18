@@ -40,6 +40,18 @@ abstract class Customization
     abstract public function build();
 
     /**
+     * Returns ['customization_name' => 'setting_key'] map.
+     *
+     * @return array
+     */
+    public function settingsMap()
+    {
+        return [
+            //
+        ];
+    }
+
+    /**
      * Returns customization data.
      *
      * @return array
@@ -58,7 +70,17 @@ abstract class Customization
      */
     public function setPreviewData(array $previewData = [])
     {
-        $this->previewData = $previewData;
+        if (!count($previewData)) {
+            return $this;
+        }
+
+        $settingsMap = $this->settingsMap();
+
+        if (count($settingsMap) > 0) {
+            $previewData = $this->renamePreviewDataKeys($previewData, $settingsMap);
+        }
+
+        $this->settings->replace($previewData);
 
         return $this;
     }
@@ -78,6 +100,28 @@ abstract class Customization
     }
 
     /**
+     * Renames customization keys to settings keys.
+     *
+     * @param array $previewData
+     * @param array $map
+     *
+     * @return array
+     */
+    protected function renamePreviewDataKeys(array $previewData, array $map)
+    {
+        foreach ($map as $customizationName => $settingsKey) {
+            if (!array_key_exists($customizationName, $previewData)) {
+                continue;
+            }
+
+            $previewData[$settingsKey] = $previewData[$customizationName];
+            unset($previewData[$customizationName]);
+        }
+
+        return $previewData;
+    }
+
+    /**
      * Returns value from preview data or default value.
      *
      * @param string $key
@@ -85,11 +129,9 @@ abstract class Customization
      *
      * @return mixed|null
      */
-    protected function previewData(string $key, $defaultValue = null)
+    protected function setting(string $key, $defaultValue = null)
     {
-        $defaultValue = $defaultValue ?? $this->settings->get($key);
-
-        return $this->previewData[$key] ?? $defaultValue;
+        return $this->settings->get($key, $defaultValue);
     }
 
     /**
@@ -101,9 +143,9 @@ abstract class Customization
      *
      * @return string
      */
-    protected function previewDataWithPlaceholders(string $key, array $placeholders = [], $defaultValue = null)
+    protected function settingWithPlaceholders(string $key, array $placeholders = [], $defaultValue = null)
     {
-        $text = $this->previewData($key, $defaultValue);
+        $text = $this->setting($key, $defaultValue);
 
         return $this->settings->replacePlaceholders($text, $placeholders);
     }

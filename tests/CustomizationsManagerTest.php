@@ -38,4 +38,29 @@ class CustomizationsManagerTest extends TestCase
         $data = $customization->all();
         $this->assertSame('Hello, John! This is simple notification.', $data['email_heading']);
     }
+
+    public function testBuildEditableWithPreviewDataAndNonSettingsKey()
+    {
+        $customization = new DummyCustomization();
+        $previewData = ['hello_world' => 'New Value'];
+        $manager = new CustomizationsManager($customization, $this->manager, $previewData);
+
+        $manager->buildData();
+
+        $data = $customization->all();
+        $this->assertSame('New Value', $data['some_other']);
+    }
+
+    public function testSettingsMap()
+    {
+        $customization = new DummyCustomization();
+        $previewData = ['has_referral' => 'yes'];
+        $manager = new CustomizationsManager($customization, $this->manager, $previewData);
+
+        $manager->buildData();
+
+        $data = $customization->all();
+        $this->assertSame('yes', $data['has_referral']);
+        $this->assertTrue($this->manager->equals('show_referral_block', 'yes'));
+    }
 }
