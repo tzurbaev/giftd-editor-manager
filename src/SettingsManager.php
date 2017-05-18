@@ -4,7 +4,7 @@ namespace Giftd\Editor;
 
 use Giftd\Editor\Contracts\HasSettings;
 
-abstract class SettingsManager
+class SettingsManager
 {
     /**
      * Resource with settings.

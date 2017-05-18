@@ -2,9 +2,9 @@
 
 namespace Tests;
 
+use Giftd\Editor\SettingsManager;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Tests\Stubs\DummyResource;
-use Tests\Stubs\DummySettingsManager;
 
 class TestCase extends BaseTestCase
 {
@@ -18,7 +18,7 @@ class TestCase extends BaseTestCase
     protected $resource;
 
     /**
-     * @var DummySettingsManager
+     * @var SettingsManager
      */
     protected $manager;
 
@@ -28,7 +28,7 @@ class TestCase extends BaseTestCase
 
         $this->settings = $this->exampleSettings();
         $this->resource = new DummyResource($this->settings);
-        $this->manager = new DummySettingsManager($this->resource);
+        $this->manager = new SettingsManager($this->resource);
     }
 
     /**

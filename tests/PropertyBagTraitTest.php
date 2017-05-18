@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Tests\Stubs\DummySettingsManager;
+use Giftd\Editor\SettingsManager;
 use Tests\Stubs\PropertyBagResource;
 
 class PropertyBagTraitTest extends TestCase
@@ -13,7 +13,7 @@ class PropertyBagTraitTest extends TestCase
     protected $resource;
 
     /**
-     * @var DummySettingsManager
+     * @var SettingsManager
      */
     protected $manager;
 
@@ -22,7 +22,7 @@ class PropertyBagTraitTest extends TestCase
         parent::setUp();
 
         $this->resource = new PropertyBagResource($this->settings, []);
-        $this->manager = new DummySettingsManager($this->resource);
+        $this->manager = new SettingsManager($this->resource);
     }
 
     public function testGetSettings()
