@@ -189,4 +189,16 @@ class SettingsManager
 
         return $this;
     }
+
+    /**
+     * Saves replaced settings.
+     *
+     * @return $this
+     */
+    public function saveReplaced()
+    {
+        $this->updateMany($this->replaced);
+
+        return $this;
+    }
 }

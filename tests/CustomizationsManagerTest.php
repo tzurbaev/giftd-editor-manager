@@ -63,4 +63,14 @@ class CustomizationsManagerTest extends TestCase
         $this->assertSame('yes', $data['has_referral']);
         $this->assertTrue($this->manager->equals('show_referral_block', 'yes'));
     }
+
+    public function testSaveSettings()
+    {
+        $customization = new DummyCustomization();
+        $requestData = ['email_heading' => 'Welcome, {user}!'];
+        $manager = new CustomizationsManager($customization, $this->manager, $requestData);
+        $manager->saveSettings();
+
+        $this->assertTrue($this->manager->equals('email_heading', 'Welcome, {user}!'));
+    }
 }

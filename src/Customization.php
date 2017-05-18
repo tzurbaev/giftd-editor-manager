@@ -52,6 +52,28 @@ abstract class Customization
     }
 
     /**
+     * Triggers before the save settings operation.
+     */
+    public function beforeSaving()
+    {
+        //
+    }
+
+    /**
+     * Saves customization settings.
+     *
+     * @return $this
+     */
+    public function save()
+    {
+        $this->beforeSaving();
+
+        $this->settings->saveReplaced();
+
+        return $this;
+    }
+
+    /**
      * Returns customization data.
      *
      * @return array

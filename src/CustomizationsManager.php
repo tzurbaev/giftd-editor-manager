@@ -52,6 +52,18 @@ class CustomizationsManager
     }
 
     /**
+     * Saves customization settings.
+     *
+     * @return $this
+     */
+    public function saveSettings()
+    {
+        $this->customization->save();
+
+        return $this;
+    }
+
+    /**
      * Performs editable settings groupping.
      *
      * @param array $editables
