@@ -73,4 +73,15 @@ class CustomizationsManagerTest extends TestCase
 
         $this->assertTrue($this->manager->equals('email_heading', 'Welcome, {user}!'));
     }
+
+    public function testGetDataKey()
+    {
+        $customization = new DummyCustomization();
+        $manager = new CustomizationsManager($customization, $this->manager);
+        $manager->buildData();
+
+        $this->assertSame($this->settings['email_heading'], $customization->get('email_heading'));
+        $this->assertNull($customization->get('non-existed'));
+        $this->assertSame('default-value', $customization->get('non-existed', 'default-value'));
+    }
 }

@@ -12,13 +12,6 @@ abstract class Customization
     protected $data = [];
 
     /**
-     * Preview data.
-     *
-     * @var array
-     */
-    protected $previewData = [];
-
-    /**
      * Customization-related settings.
      *
      * @var SettingsManager
@@ -71,6 +64,19 @@ abstract class Customization
         $this->settings->saveReplaced();
 
         return $this;
+    }
+
+    /**
+     * Returns value for given customization data key or default value.
+     *
+     * @param string $key
+     * @param mixed  $defaultValue = null
+     *
+     * @return mixed
+     */
+    public function get(string $key, $defaultValue = null)
+    {
+        return $this->data[$key] ?? $defaultValue;
     }
 
     /**
