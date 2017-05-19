@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Giftd\Editor\Customization;
 use Giftd\Editor\CustomizationsManager;
 use Tests\Stubs\DummyCustomization;
 
@@ -83,5 +84,14 @@ class CustomizationsManagerTest extends TestCase
         $this->assertSame($this->settings['email_heading'], $customization->get('email_heading'));
         $this->assertNull($customization->get('non-existed'));
         $this->assertSame('default-value', $customization->get('non-existed', 'default-value'));
+    }
+
+    public function testGetCustomization()
+    {
+        $customization = new DummyCustomization();
+        $manager = new CustomizationsManager($customization, $this->manager);
+        $manager->buildData();
+
+        $this->assertInstanceOf(Customization::class, $manager->customization());
     }
 }

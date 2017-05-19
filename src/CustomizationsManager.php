@@ -52,6 +52,16 @@ class CustomizationsManager
     }
 
     /**
+     * Get original customization.
+     *
+     * @return Customization
+     */
+    public function customization()
+    {
+        return $this->customization;
+    }
+
+    /**
      * Saves customization settings.
      *
      * @return $this
