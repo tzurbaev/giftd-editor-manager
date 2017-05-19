@@ -98,9 +98,12 @@ class EditablesTest extends TestCase
                 'expected' => 'hello',
             ],
             [
-                'editable' => (new Editable('test'))->withOptions(['first', 'second']),
+                'editable' => (new Editable('test'))->withOptions(['first' => 'first value', 'second' => 'second value']),
                 'attribute' => 'options',
-                'expected' => ['first', 'second'],
+                'expected' => [
+                    ['value' => 'first', 'label' => 'first value'],
+                    ['value' => 'second', 'label' => 'second value'],
+                ]
             ],
             [
                 'editable' => (new Editable('test'))->withAttributes(['custom-attribute' => 'custom-value']),

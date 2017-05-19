@@ -96,7 +96,13 @@ class Editable implements \JsonSerializable
      */
     public function withOptions(array $options = [])
     {
-        $this->attributes['options'] = $options;
+        $data = [];
+
+        foreach ($options as $value => $label) {
+            $data[] = ['value' => $value, 'label' => $label];
+        }
+
+        $this->attributes['options'] = $data;
 
         return $this;
     }
