@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Giftd\Editor\Editable;
+use Illuminate\Support\Arr;
 
 class EditablesTest extends TestCase
 {
@@ -20,7 +21,7 @@ class EditablesTest extends TestCase
      */
     public function testAttributes(Editable $editable, string $attribute, $expected)
     {
-        $this->assertSame($expected, $editable->attributes()[$attribute]);
+        $this->assertSame($expected, Arr::get($editable->attributes(), $attribute));
     }
 
     public function testPlaceholders()
@@ -109,6 +110,16 @@ class EditablesTest extends TestCase
                 'editable' => (new Editable('test'))->withAttributes(['custom-attribute' => 'custom-value']),
                 'attribute' => 'custom-attribute',
                 'expected' => 'custom-value',
+            ],
+            [
+                'editable' => (new Editable('test'))->uploadTo('/upload'),
+                'attribute' => 'settings.upload_url',
+                'expected' => '/upload',
+            ],
+            [
+                'editable' => (new Editable('test'))->withHeaders(['X-CSRF-Token' => 'secret']),
+                'attribute' => 'settings.headers',
+                'expected' => ['X-CSRF-Token' => 'secret'],
             ],
         ];
     }

@@ -122,6 +122,49 @@ class Editable implements \JsonSerializable
     }
 
     /**
+     * Set upload URL.
+     *
+     * @param string $url
+     *
+     * @return Editable
+     */
+    public function uploadTo(string $url)
+    {
+        return $this->withSetting('upload_url', $url);
+    }
+
+    /**
+     * Set request headers.
+     *
+     * @param array $headers
+     *
+     * @return Editable
+     */
+    public function withHeaders(array $headers)
+    {
+        return $this->withSetting('headers', $headers);
+    }
+
+    /**
+     * Set custom setting value.
+     *
+     * @param string $setting
+     * @param $value
+     *
+     * @return $this
+     */
+    public function withSetting(string $setting, $value)
+    {
+        if (!isset($this->attributes['settings'])) {
+            $this->attributes['settings'] = [];
+        }
+
+        $this->attributes['settings'][$setting] = $value;
+
+        return $this;
+    }
+
+    /**
      * Creates new placeholder and pushes it to editable's placeholders list.
      *
      * @param string $name
