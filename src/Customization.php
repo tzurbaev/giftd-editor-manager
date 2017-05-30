@@ -140,6 +140,8 @@ abstract class Customization
         foreach ($map as $customizationName => $settingsKey) {
             if (!array_key_exists($customizationName, $previewData)) {
                 continue;
+            } elseif ($customizationName === $settingsKey) {
+                continue;
             }
 
             $previewData[$settingsKey] = $previewData[$customizationName];

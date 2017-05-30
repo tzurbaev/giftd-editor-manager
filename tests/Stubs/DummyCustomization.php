@@ -8,7 +8,10 @@ class DummyCustomization extends Customization
 {
     public function settingsMap()
     {
-        return ['has_referral' => 'show_referral_block'];
+        return [
+            'has_referral' => 'show_referral_block',
+            'email_heading' => 'email_heading',
+        ];
     }
 
     public function editables()

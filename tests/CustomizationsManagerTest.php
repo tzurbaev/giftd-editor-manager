@@ -65,6 +65,21 @@ class CustomizationsManagerTest extends TestCase
         $this->assertTrue($this->manager->equals('show_referral_block', 'yes'));
     }
 
+    public function testSettingsMapShouldIgnoreIdenticalKeys()
+    {
+        $customization = new DummyCustomization();
+        $previewData = ['has_referral' => 'yes'];
+        $manager = new CustomizationsManager($customization, $this->manager, $previewData);
+        $expectedEmailHeading = $this->manager->get('email_heading');
+
+        $manager->buildData();
+
+        $data = $customization->all();
+        $this->assertSame('yes', $data['has_referral']);
+        $this->assertTrue($this->manager->equals('show_referral_block', 'yes'));
+        $this->assertTrue($this->manager->equals('email_heading', $expectedEmailHeading));
+    }
+
     public function testSaveSettings()
     {
         $customization = new DummyCustomization();
