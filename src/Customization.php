@@ -19,6 +19,13 @@ abstract class Customization
     protected $settings;
 
     /**
+     * List of disabled common editables names.
+     *
+     * @var array
+     */
+    protected $disabledEditables = [];
+
+    /**
      * Creates groupped editables list.
      *
      * @return array
@@ -125,6 +132,32 @@ abstract class Customization
         $this->settings = $settings;
 
         return $this;
+    }
+
+    /**
+     * @param array|string $editables
+     *
+     * @return $this
+     */
+    public function disableEditables($editables)
+    {
+        if (is_string($editables)) {
+            $editables = [$editables];
+        } elseif (!is_array($editables)) {
+            throw new \InvalidArgumentException('Editables must be an array or string, '.gettype($editables).' given');
+        }
+
+        $this->disabledEditables = array_merge($this->disabledEditables, $editables);
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDisabledEditables()
+    {
+        return $this->disabledEditables;
     }
 
     /**

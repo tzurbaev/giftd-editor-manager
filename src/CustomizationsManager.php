@@ -82,6 +82,8 @@ class CustomizationsManager
      */
     protected function groupEditableSettings(array $editables)
     {
+        $disabledEditables = $this->customization()->getDisabledEditables();
+
         foreach ($editables as &$group) {
             if (!count($group['settings'])) {
                 continue;
@@ -95,7 +97,7 @@ class CustomizationsManager
                  */
                 $attributes = $setting->attributes();
 
-                if (empty($attributes['name'])) {
+                if (empty($attributes['name']) || in_array($attributes['name'], $disabledEditables)) {
                     continue;
                 }
 

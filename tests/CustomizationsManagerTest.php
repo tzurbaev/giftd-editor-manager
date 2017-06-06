@@ -4,6 +4,7 @@ namespace Tests;
 
 use Giftd\Editor\Customization;
 use Giftd\Editor\CustomizationsManager;
+use Tests\Stubs\DummyConcreteCustomization;
 use Tests\Stubs\DummyCustomization;
 
 class CustomizationsManagerTest extends TestCase
@@ -16,6 +17,16 @@ class CustomizationsManagerTest extends TestCase
         $editables = $manager->parseEditables();
 
         $this->assertSame($customization->expected(), $editables);
+    }
+
+    public function testCommonEditablesMayBeDisabled()
+    {
+        $customization = new DummyConcreteCustomization();
+        $manager = new CustomizationsManager($customization, $this->manager);
+
+        $editables = $manager->parseEditables();
+
+        $this->assertSame($customization->expectedConcrete(), $editables);
     }
 
     public function testBuildEditable()
