@@ -33,6 +33,59 @@ class EditablesTest extends TestCase
         $this->assertSame($placeholder, $expected);
     }
 
+    public function testMultiplePlaceholders()
+    {
+        $expected = (new Editable('test'))
+            ->placeholder('first', 'First caption', 'first-value')
+            ->placeholder('second', 'Second caption', 'second-value');
+
+        $actual = (new Editable('test'))->placeholders([
+            [
+                'name' => 'first',
+                'title' => 'First caption',
+                'value' => 'first-value',
+            ],
+            [
+                'name' => 'second',
+                'title' => 'Second caption',
+                'value' => 'second-value',
+            ],
+        ]);
+
+        $this->assertSame($expected->attributes()['placeholders'], $actual->attributes()['placeholders']);
+    }
+
+    public function testInvalidPlaceholderFromArrayShouldBeIgnored()
+    {
+        $expected = (new Editable('test'))
+            ->placeholder('first', 'First caption', 'first-value');
+
+        $actual = (new Editable('test'))->placeholders([
+            [
+                'name' => 'first',
+                'title' => 'First caption',
+                'value' => 'first-value',
+            ],
+            [
+                // Should be ignored when 'name' is missing.
+                'title' => 'Second caption',
+                'value' => 'second-value',
+            ],
+            [
+                // Should be ignored when 'title' is missing.
+                'name' => 'second',
+                'value' => 'second-value',
+            ],
+            [
+                // Should be ignored when 'value' is missing.
+                'name' => 'second',
+                'title' => 'Second caption',
+            ],
+        ]);
+
+        $this->assertSame($expected->attributes()['placeholders'], $actual->attributes()['placeholders']);
+    }
+
     public function testStructure()
     {
         $editable = (new Editable('test'))

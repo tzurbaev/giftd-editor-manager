@@ -189,6 +189,25 @@ class Editable implements \JsonSerializable
     }
 
     /**
+     * Creates multiple placeholders from array.
+     *
+     * @param array $placeholders
+     * @return $this
+     */
+    public function placeholders(array $placeholders)
+    {
+        foreach ($placeholders as $ph) {
+            if (!isset($ph['name']) || !isset($ph['title']) || !isset($ph['value'])) {
+                continue;
+            }
+
+            $this->placeholder($ph['name'], $ph['title'], $ph['value'], $ph['attributes'] ?? []);
+        }
+
+        return $this;
+    }
+
+    /**
      * Sets inline mode.
      *
      * @param bool $inline = true
